@@ -1,0 +1,25 @@
+{
+  "name": "x",
+  "version": "1.0.0",
+  "description": "Toolbox is a lightweight extensible, command line toolchain to streamline a developer workflow",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/opeolluwa/x.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/opeolluwa/x/issues"
+  },
+  "homepage": "https://github.com/opeolluwa/x#readme"
+}
