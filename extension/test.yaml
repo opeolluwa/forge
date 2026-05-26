@@ -2,4 +2,4 @@ name: test
 description: A simple smoke-test script that prints a confirmation message.
 args: []
 commands:
-  - lua test.lua
+  - x test.lua

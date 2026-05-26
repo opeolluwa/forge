@@ -1,3 +1,3 @@
 pub mod app;
+pub mod extension;
 pub mod generator;
-pub mod scripts;

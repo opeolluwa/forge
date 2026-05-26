@@ -7,7 +7,7 @@ pub fn generate_command() -> Command {
         .arg(arg!(-b --backup "backup existing"))
         .arg(arg!(-p --path <PATH> "desired path"));
 
-    let generate_gitignore_cmd = Command::new(".gitignore")
+    let generate_gitignore_cmd = Command::new("git")
         .about("create a .gitignore file for a project")
         .arg(arg!(-f --force "Overwrite existing .gitignore file "))
         .arg(arg!(-b --backup "backup existing .gitignore file before overwrite"))

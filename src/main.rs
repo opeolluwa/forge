@@ -1,7 +1,7 @@
 use clap::Command;
 use lib_toolbox::{
     commands::{
-        bookmarks::bookmarks_command, generate::generate_command, script::script_command,
+        bookmarks::bookmarks_command, extension::extension_command, generate::generate_command,
         self_cmd::self_command,
     },
     errors::app::AppError,
@@ -19,7 +19,7 @@ async fn main() -> Result<(), AppError> {
         .subcommand(self_command())
         .subcommand(bookmarks_command())
         .subcommand(generate_command())
-        .subcommand(script_command())
+        .subcommand(extension_command())
         .get_matches();
 
     parse_commands(matches).await;

@@ -21,5 +21,5 @@ local message = string.format("%s(%s)\n\n%s\n", kind, commit_title, commit_messa
 
 print(message)
 
-os.execute("git add .")
-os.execute("git commit -m " .. string.format("%q", message))
+-- os.execute("git add .")
+-- os.execute("git commit -m " .. string.format("%q", message))
