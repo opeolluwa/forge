@@ -1,0 +1,9 @@
+name: create-axum-justfile
+description: Generates a pre-configured Justfile for an Axum/Docker project in a specified directory.
+args:
+  - name: target_dir
+    description: Path to the directory where the Justfile will be created
+    required: true
+    interactive: true
+commands:
+  - lua create-axum-justfile.lua
