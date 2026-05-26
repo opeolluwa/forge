@@ -52,9 +52,9 @@ pub fn run_extension(name: &str) -> Result<(), FileSystemError> {
 
     let script = fs::read_to_string(&lua_path)?;
     let lua = Lua::new();
-    lua.load(&script).exec().map_err(|e| {
-        FileSystemError::OperationError(format!("lua error in '{}': {}", name, e))
-    })?;
+    lua.load(&script)
+        .exec()
+        .map_err(|e| FileSystemError::OperationError(format!("lua error in '{}': {}", name, e)))?;
 
     Ok(())
 }
@@ -80,7 +80,10 @@ pub fn show_extension_help(name: &str) -> Result<(), FileSystemError> {
             } else {
                 format!("  [{}]", flags.join(", "))
             };
-            LogMessage::neutral(&format!("  {:<14} {}{}", arg.name, arg.description, flag_str));
+            LogMessage::neutral(&format!(
+                "  {:<14} {}{}",
+                arg.name, arg.description, flag_str
+            ));
         }
     }
 
