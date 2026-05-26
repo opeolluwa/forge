@@ -1,6 +1,6 @@
-use clap::ArgMatches;
-
 use std::path::Path;
+
+use clap::ArgMatches;
 
 use crate::{
     helpers::console::LogMessage,

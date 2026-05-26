@@ -26,13 +26,11 @@ pub fn create_extension(name: &str) -> Result<(), FileSystemError> {
         )));
     }
 
-    let lua_template = format!(
-        "-- {name}\n-- Write your extension logic here\n\nprint(\"Running {name}\")\n"
-    );
+    let lua_template =
+        format!("-- {name}\n-- Write your extension logic here\n\nprint(\"Running {name}\")\n");
 
-    let yaml_template = format!(
-        "name: {name}\ndescription: \"\"\nargs: []\ncommands:\n  - lua {name}.lua\n"
-    );
+    let yaml_template =
+        format!("name: {name}\ndescription: \"\"\nargs: []\ncommands:\n  - lua {name}.lua\n");
 
     fs::write(&lua_path, lua_template)?;
     fs::write(&yaml_path, yaml_template)?;
@@ -74,7 +72,10 @@ pub fn update_extension(name: &str) -> Result<(), FileSystemError> {
         .arg(&lua_path)
         .spawn()
         .map_err(|e| {
-            FileSystemError::OperationError(format!("Failed to open editor '{}': {}", editor_bin, e))
+            FileSystemError::OperationError(format!(
+                "Failed to open editor '{}': {}",
+                editor_bin, e
+            ))
         })?;
 
     Ok(())
@@ -97,7 +98,11 @@ pub fn bootstrap_extensions(source_dir: &Path) -> Result<(), FileSystemError> {
             if path.extension()?.to_str()? == "lua" {
                 let stem = path.file_stem()?.to_str()?.to_owned();
                 let yaml = source_dir.join(format!("{}.yaml", stem));
-                if yaml.exists() { Some(stem) } else { None }
+                if yaml.exists() {
+                    Some(stem)
+                } else {
+                    None
+                }
             } else {
                 None
             }
@@ -157,12 +162,9 @@ pub fn open_extensions_dir() -> Result<(), FileSystemError> {
         _ => "code",
     };
 
-    Command::new(editor_bin)
-        .arg(&dir)
-        .spawn()
-        .map_err(|e| {
-            FileSystemError::OperationError(format!("Failed to open editor '{}': {}", editor_bin, e))
-        })?;
+    Command::new(editor_bin).arg(&dir).spawn().map_err(|e| {
+        FileSystemError::OperationError(format!("Failed to open editor '{}': {}", editor_bin, e))
+    })?;
 
     Ok(())
 }
