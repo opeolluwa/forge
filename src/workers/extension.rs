@@ -1,7 +1,7 @@
 use std::{
     fs,
     io::{Error, ErrorKind},
-    path::PathBuf,
+    path::{Path, PathBuf},
     process::Command,
 };
 
@@ -165,6 +165,55 @@ pub fn open_extensions_dir() -> Result<(), FileSystemError> {
     Command::new(editor_bin).arg(&dir).spawn().map_err(|e| {
         FileSystemError::OperationError(format!("Failed to open editor '{}': {}", editor_bin, e))
     })?;
+
+    Ok(())
+}
+
+pub fn clean_extensions() -> Result<(), FileSystemError> {
+    let dir = PathBuf::from(EXTENSIONS_DIR);
+
+    if !dir.exists() {
+        LogMessage::info("Extensions directory is already empty");
+        return Ok(());
+    }
+
+    let entries: Vec<_> = fs::read_dir(&dir)?
+        .filter_map(|e| e.ok())
+        .filter(|e| {
+            e.path()
+                .extension()
+                .and_then(|x| x.to_str())
+                .map(|x| x == "lua" || x == "yaml")
+                .unwrap_or(false)
+        })
+        .collect();
+
+    if entries.is_empty() {
+        LogMessage::info("No extensions to remove");
+        return Ok(());
+    }
+
+    println!("The following files will be removed:");
+    for entry in &entries {
+        println!("  • {}", entry.file_name().to_string_lossy());
+    }
+
+    let confirmed = dialoguer::Confirm::new()
+        .with_prompt("Remove all extensions? This cannot be undone")
+        .default(false)
+        .interact()
+        .map_err(|e| FileSystemError::OperationError(e.to_string()))?;
+
+    if !confirmed {
+        LogMessage::info("Aborted");
+        return Ok(());
+    }
+
+    for entry in &entries {
+        fs::remove_file(entry.path())?;
+    }
+
+    LogMessage::success(&format!("Removed {} extension file(s)", entries.len()));
 
     Ok(())
 }

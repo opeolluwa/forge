@@ -7,6 +7,7 @@ use crate::parsers::{
     generator::parse_generator_options,
 };
 use crate::workers::gui::exec_gui;
+use crate::workers::lua_runner::{run_extension, show_extension_help};
 
 pub async fn parse_commands(matches: ArgMatches) {
     match matches.subcommand() {
@@ -15,9 +16,20 @@ pub async fn parse_commands(matches: ArgMatches) {
         Some(("generate", sub_matches)) => parse_generator_options(sub_matches),
         Some(("extension", sub_matches)) => parse_extension_options(sub_matches),
         Some(("bookmarks", _)) => exec_gui().await,
-        _ => {
-            LogMessage::error("Invalid command");
-            std::process::exit(1)
+        Some((name, _)) => {
+            if let Some(base) = name.strip_suffix("-help") {
+                if let Err(e) = show_extension_help(base) {
+                    LogMessage::error(&format!("no match: {}", e));
+                    std::process::exit(1);
+                }
+            } else if let Err(e) = run_extension(name) {
+                LogMessage::error(&format!("no match: {}", e));
+                std::process::exit(1);
+            }
+        }
+        None => {
+            LogMessage::error("no command provided");
+            std::process::exit(1);
         }
     }
 }

@@ -37,6 +37,10 @@ pub fn extension_command() -> Command {
                 .required(true),
         );
 
+    let clean_cmd = Command::new("clean")
+        .about("remove all extensions from the extensions directory")
+        .aliases(["cl", "-cl"]);
+
     let open_cmd = Command::new("open")
         .about("open the extensions directory in your preferred editor")
         .aliases(["o", "-o"]);
@@ -49,4 +53,5 @@ pub fn extension_command() -> Command {
         .subcommand(remove_cmd)
         .subcommand(open_cmd)
         .subcommand(bootstrap_cmd)
+        .subcommand(clean_cmd)
 }

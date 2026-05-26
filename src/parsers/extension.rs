@@ -5,8 +5,8 @@ use clap::ArgMatches;
 use crate::{
     helpers::console::LogMessage,
     workers::extension::{
-        bootstrap_extensions, create_extension, open_extensions_dir, remove_extension,
-        update_extension,
+        bootstrap_extensions, clean_extensions, create_extension, open_extensions_dir,
+        remove_extension, update_extension,
     },
 };
 
@@ -30,6 +30,10 @@ pub fn parse_extension_options(sub_matches: &ArgMatches) {
         Some(("bootstrap", args)) => {
             let path = args.get_one::<String>("path").expect("path is required");
             let _ = bootstrap_extensions(Path::new(path));
+        }
+
+        Some(("clean", _)) => {
+            let _ = clean_extensions();
         }
 
         Some(("open", _)) => {
