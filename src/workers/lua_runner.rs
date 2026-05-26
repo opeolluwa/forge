@@ -3,9 +3,9 @@ use std::{fs, path::PathBuf};
 use mlua::Lua;
 use serde::Deserialize;
 
-use crate::{constants::EXTENSIONS_DIR, errors::file_system::FileSystemError, helpers::console::LogMessage};
-
-
+use crate::{
+    constants::EXTENSIONS_DIR, errors::file_system::FileSystemError, helpers::console::LogMessage,
+};
 
 #[derive(Debug, Deserialize)]
 struct ExtensionArg {

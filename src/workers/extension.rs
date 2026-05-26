@@ -7,8 +7,9 @@ use std::{
 
 use dialoguer::{theme::ColorfulTheme, Select};
 
-use crate::{constants::EXTENSIONS_DIR, errors::file_system::FileSystemError, helpers::console::LogMessage};
-
+use crate::{
+    constants::EXTENSIONS_DIR, errors::file_system::FileSystemError, helpers::console::LogMessage,
+};
 
 pub fn create_extension(name: &str) -> Result<(), FileSystemError> {
     let dir = PathBuf::from(EXTENSIONS_DIR.as_str());
