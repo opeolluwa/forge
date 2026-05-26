@@ -1,0 +1,5 @@
+name: create-justfile
+description: Placeholder for creating a Justfile in the current directory (server, Tauri, or custom setup).
+args: []
+commands:
+  - lua create-justfile.lua

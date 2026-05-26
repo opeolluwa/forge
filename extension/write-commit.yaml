@@ -1,0 +1,17 @@
+name: write-commit
+description: Interactively stage all changes and create a conventional git commit with a kind, title, and message.
+args:
+  - name: kind
+    description: "Commit kind (one of: chore, feat, refactor, update)"
+    required: true
+    interactive: true
+  - name: title
+    description: Short commit title (scope)
+    required: true
+    interactive: true
+  - name: message
+    description: Full commit message body
+    required: true
+    interactive: true
+commands:
+  - lua write-commit.lua
