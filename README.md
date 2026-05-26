@@ -16,7 +16,7 @@ cargo install --path .
 
 ### Usage
 
-The command is `tb`
+The command is `x`
 
 ### Configuration
 
