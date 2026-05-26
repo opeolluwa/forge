@@ -19,7 +19,7 @@ pub fn parse_generator_options(sub_matches: &ArgMatches) {
             }
         }
 
-        Some((".gitignore", args)) => {
+        Some(("git", args)) => {
             let config = GeneratorConfig::parse_options(args);
             match GeneratorConfig::new(config.force, config.base_path, config.back_up)
                 .generate_ignore_file()
