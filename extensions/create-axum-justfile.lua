@@ -82,14 +82,25 @@ restart:
     @sea-orm-cli migrate generate "{{target}}"
 
 @generate-entities:
-    sea-orm-cli generate entity --database-url=mysql://community:community@localhost:3307/community --with-serde both -o src/entities
+    sea-orm-cli generate entity --database-url="$DATABASE_URL" --with-serde both -o src/entities
 ]=]
 
 local function is_dir(path)
-    local f = io.popen('[ -d "' .. path .. '" ] && echo 1 || echo 0')
-    local result = f:read("*l")
-    f:close()
-    return result == "1"
+    -- os.rename on a path to itself succeeds for both files and dirs, but
+    -- trying to open a directory with io.open returns nil, letting us distinguish.
+    local ok, _, code = os.rename(path, path)
+    if not ok then
+        -- code 13 = EACCES (permission denied) means the path exists but we can't rename it;
+        -- treat that as present (it exists, and on most systems that means it's a dir we can write into).
+        return code == 13
+    end
+    -- Confirm it's a directory and not a regular file.
+    local probe = io.open(path, "r")
+    if probe then
+        probe:close()
+        return false -- opened as a file, so it's not a directory
+    end
+    return true
 end
 
 io.write("Enter directory to create Justfile in: ")
