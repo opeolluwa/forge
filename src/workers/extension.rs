@@ -7,12 +7,11 @@ use std::{
 
 use dialoguer::{theme::ColorfulTheme, Select};
 
-use crate::{errors::file_system::FileSystemError, helpers::console::LogMessage};
+use crate::{constants::EXTENSIONS_DIR, errors::file_system::FileSystemError, helpers::console::LogMessage};
 
-const EXTENSIONS_DIR: &str = "extension";
 
 pub fn create_extension(name: &str) -> Result<(), FileSystemError> {
-    let dir = PathBuf::from(EXTENSIONS_DIR);
+    let dir = PathBuf::from(EXTENSIONS_DIR.as_str());
     fs::create_dir_all(&dir)?;
 
     let lua_path = dir.join(format!("{}.lua", name));
@@ -45,7 +44,7 @@ pub fn create_extension(name: &str) -> Result<(), FileSystemError> {
 }
 
 pub fn update_extension(name: &str) -> Result<(), FileSystemError> {
-    let lua_path = PathBuf::from(EXTENSIONS_DIR).join(format!("{}.lua", name));
+    let lua_path = PathBuf::from(EXTENSIONS_DIR.as_str()).join(format!("{}.lua", name));
 
     if !lua_path.exists() {
         LogMessage::error(&format!("Extension '{}' not found", name));
@@ -130,7 +129,7 @@ pub fn bootstrap_extensions(source_dir: &Path) -> Result<(), FileSystemError> {
         return Ok(());
     }
 
-    let dest_dir = PathBuf::from(EXTENSIONS_DIR);
+    let dest_dir = PathBuf::from(EXTENSIONS_DIR.as_str());
     fs::create_dir_all(&dest_dir)?;
 
     for name in &pairs {
@@ -146,7 +145,7 @@ pub fn bootstrap_extensions(source_dir: &Path) -> Result<(), FileSystemError> {
 }
 
 pub fn open_extensions_dir() -> Result<(), FileSystemError> {
-    let dir = PathBuf::from(EXTENSIONS_DIR);
+    let dir = PathBuf::from(EXTENSIONS_DIR.as_str());
     fs::create_dir_all(&dir)?;
 
     let editors = ["Zed", "VS Code"];
@@ -170,7 +169,7 @@ pub fn open_extensions_dir() -> Result<(), FileSystemError> {
 }
 
 pub fn clean_extensions() -> Result<(), FileSystemError> {
-    let dir = PathBuf::from(EXTENSIONS_DIR);
+    let dir = PathBuf::from(EXTENSIONS_DIR.as_str());
 
     if !dir.exists() {
         LogMessage::info("Extensions directory is already empty");
@@ -219,7 +218,7 @@ pub fn clean_extensions() -> Result<(), FileSystemError> {
 }
 
 pub fn remove_extension(name: &str) -> Result<(), FileSystemError> {
-    let dir = PathBuf::from(EXTENSIONS_DIR);
+    let dir = PathBuf::from(EXTENSIONS_DIR.as_str());
     let lua_path = dir.join(format!("{}.lua", name));
     let yaml_path = dir.join(format!("{}.yaml", name));
 

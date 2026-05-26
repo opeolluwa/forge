@@ -3,9 +3,9 @@ use std::{fs, path::PathBuf};
 use mlua::Lua;
 use serde::Deserialize;
 
-use crate::{errors::file_system::FileSystemError, helpers::console::LogMessage};
+use crate::{constants::EXTENSIONS_DIR, errors::file_system::FileSystemError, helpers::console::LogMessage};
 
-const EXTENSIONS_DIR: &str = "extension";
+
 
 #[derive(Debug, Deserialize)]
 struct ExtensionArg {
@@ -28,7 +28,7 @@ struct ExtensionManifest {
 }
 
 fn load_manifest(name: &str) -> Result<ExtensionManifest, FileSystemError> {
-    let yaml_path = PathBuf::from(EXTENSIONS_DIR).join(format!("{}.yaml", name));
+    let yaml_path = PathBuf::from(EXTENSIONS_DIR.as_str()).join(format!("{}.yaml", name));
     if !yaml_path.exists() {
         return Err(FileSystemError::IoError(std::io::Error::new(
             std::io::ErrorKind::NotFound,
@@ -42,7 +42,7 @@ fn load_manifest(name: &str) -> Result<ExtensionManifest, FileSystemError> {
 }
 
 pub fn run_extension(name: &str) -> Result<(), FileSystemError> {
-    let lua_path = PathBuf::from(EXTENSIONS_DIR).join(format!("{}.lua", name));
+    let lua_path = PathBuf::from(EXTENSIONS_DIR.as_str()).join(format!("{}.lua", name));
     if !lua_path.exists() {
         return Err(FileSystemError::IoError(std::io::Error::new(
             std::io::ErrorKind::NotFound,

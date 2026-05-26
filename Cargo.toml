@@ -5,7 +5,7 @@ description = "A set of extensible tools to accelerate software development"
 edition = "2021"
 license = "Apache-2.0"
 name = "toolbox"
-version = "1.1.5"
+version = "1.1.6"
 
 [workspace]
 members = ["crates/*"]
