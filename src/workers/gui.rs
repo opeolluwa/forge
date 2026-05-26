@@ -2,9 +2,10 @@ use ribir::prelude::*;
 
 // use crate::config::db::Database;
 
-pub async fn exec_gui() {    // let config = ToolboxConfig::load()?;
+pub async fn exec_gui() {
+    // let config = ToolboxConfig::load()?;
     // let _db = Database::init().await.unwrap();
-    
+
     let counter = fn_widget! {
       let cnt = Stateful::new(0);
       @Row {

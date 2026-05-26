@@ -8,7 +8,7 @@ use console::Term;
 use dialoguer::{theme::ColorfulTheme, Confirm, FuzzySelect};
 use serde::{Deserialize, Serialize};
 
-use crate::constants::{ TEMPLATES_DIR};
+use crate::constants::TEMPLATES_DIR;
 use crate::errors::file_system::FileSystemError;
 use crate::helpers::{console::LogMessage, file_system::file_exists_in_path};
 
@@ -104,8 +104,9 @@ impl GeneratorConfig {
 
         if file_exists && self.force {
             if self.back_up {
-                fs::copy(&file_path, &backup_path)
-                    .map_err(|err| FileSystemError::OperationError(format!("Backup failed: {}", err)))?;
+                fs::copy(&file_path, &backup_path).map_err(|err| {
+                    FileSystemError::OperationError(format!("Backup failed: {}", err))
+                })?;
                 LogMessage::info(&format!("Backup created at {:?}", backup_path));
             }
 
@@ -306,7 +307,6 @@ impl GeneratorConfig {
     fn generate_ignore_file_to_path(technology: &str, path: &Path) {
         let src_path = format!("gitignore/{}.gitignore", technology);
         if let Some(file) = TEMPLATES_DIR.get_file(src_path) {
-
             if let Ok(mut output) = File::create(path) {
                 if let Err(err) = output.write_all(file.contents()) {
                     LogMessage::error(&format!("Failed to write .gitignore: {}", err));
@@ -322,7 +322,7 @@ impl GeneratorConfig {
         }
     }
     fn create_readme_template(full_path: &Path) -> Result<(), FileSystemError> {
-        let content=r#"
+        let content = r#"
 # Project Title
 
 Simple overview of use/purpose.
@@ -386,7 +386,7 @@ Inspiration, code snippets, etc.
 * [zenorocha](https://gist.github.com/zenorocha/4526327)
 * [fvcproductions](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46)
         "#;
-             let mut file = std::fs::File::create(full_path)
+        let mut file = std::fs::File::create(full_path)
             .map_err(|err| FileSystemError::OperationError(err.to_string()))?;
         file.write_all(content.as_bytes())
             .map_err(|err| FileSystemError::OperationError(err.to_string()))?;

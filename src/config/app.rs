@@ -22,7 +22,9 @@ pub struct EnvConfig {
 }
 impl Default for EnvConfig {
     fn default() -> Self {
-        Self { database_url: DATABASE_URL.to_string() }
+        Self {
+            database_url: DATABASE_URL.to_string(),
+        }
     }
 }
 

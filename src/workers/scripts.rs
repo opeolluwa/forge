@@ -5,14 +5,14 @@ use std::{
     process::{Command, Stdio},
 };
 
+use dialoguer::Input;
+
 use crate::{
     config::app::ToolboxConfig,
     constants::{APP_RUNTIME_DATABASE_PATH, APP_RUNTIME_SCRIPTS_DIR, SCRIPTS_DIR},
     errors::file_system::FileSystemError,
     helpers::console::LogMessage,
 };
-
-use dialoguer::Input;
 
 /// create a folder .dev_toolbox in the default home directory
 pub fn configure_scripts(_overwrite: bool) -> Result<(), FileSystemError> {
@@ -180,18 +180,13 @@ pub fn add_script_command(script_file_path: &Path) -> Result<(), FileSystemError
     }
 }
 
-
 pub fn list_script() {
-
     let paths = fs::read_dir(SCRIPTS_DIR.as_str()).unwrap();
 
     for entry in paths {
         let entry = entry.unwrap();
         let path = entry.path();
-        let name = path
-            .file_name()
-            .unwrap()
-            .to_string_lossy();
+        let name = path.file_name().unwrap().to_string_lossy();
 
         println!("file name: {}", name);
     }

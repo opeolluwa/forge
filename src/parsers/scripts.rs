@@ -51,7 +51,7 @@ pub fn parse_script_options(sub_matches: &ArgMatches) {
         Some(("list", _)) => {
             list_script();
         }
-        
+
         Some((other, _)) => {
             LogMessage::warning(&format!("Unknown subcommand '{}'", other));
             std::process::exit(1);

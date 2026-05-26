@@ -37,8 +37,7 @@ impl Database {
             AppError::DatabaseError(DatabaseError::ConnectionFailed(err.to_string()))
         })?;
 
-
-        Migrator::up(&conn, None).await.unwrap();//TODO: IMPROVE error handling
+        Migrator::up(&conn, None).await.unwrap(); //TODO: IMPROVE error handling
 
         Ok(conn)
     }
