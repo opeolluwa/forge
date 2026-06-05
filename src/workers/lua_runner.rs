@@ -52,6 +52,21 @@ pub fn run_extension(name: &str) -> Result<(), FileSystemError> {
 
     let script = fs::read_to_string(&lua_path)?;
     let lua = Lua::new();
+
+    // Populate the `arg` table that the standalone Lua interpreter sets automatically.
+    // Scripts rely on arg[0] for the script path and arg[1..] for CLI arguments.
+    let arg_table = lua.create_table().map_err(|e| {
+        FileSystemError::OperationError(format!("lua setup error in '{}': {}", name, e))
+    })?;
+    arg_table
+        .raw_set(0, lua_path.to_string_lossy().as_ref())
+        .map_err(|e| {
+            FileSystemError::OperationError(format!("lua setup error in '{}': {}", name, e))
+        })?;
+    lua.globals().set("arg", arg_table).map_err(|e| {
+        FileSystemError::OperationError(format!("lua setup error in '{}': {}", name, e))
+    })?;
+
     lua.load(&script)
         .exec()
         .map_err(|e| FileSystemError::OperationError(format!("lua error in '{}': {}", name, e)))?;
