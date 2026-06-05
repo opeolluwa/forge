@@ -1,3 +1,7 @@
+local dir = (arg[0]:match("^(.*[/\\])") or "")
+package.path = dir .. "?.lua;" .. package.path
+require("help").check(arg)
+
 local JUSTFILE_CONTENT = [=[# Alias
 alias install := install-deps
 alias config:= configure
