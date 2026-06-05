@@ -1,0 +1,13 @@
+name: git-clone
+description: Clone a git repository and cd into it. Accepts a URL and an optional folder name.
+args:
+  - name: url
+    description: The git repository URL to clone
+    required: true
+    interactive: true
+  - name: folder
+    description: Optional folder name to clone into (defaults to repo name)
+    required: false
+    interactive: true
+commands:
+  - lua git-clone.lua
