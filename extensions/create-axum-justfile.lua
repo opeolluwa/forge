@@ -90,29 +90,15 @@ restart:
 ]=]
 
 local function is_dir(path)
-    -- os.rename on a path to itself succeeds for both files and dirs, but
-    -- trying to open a directory with io.open returns nil, letting us distinguish.
-    local ok, _, code = os.rename(path, path)
-    if not ok then
-        -- code 13 = EACCES (permission denied) means the path exists but we can't rename it;
-        -- treat that as present (it exists, and on most systems that means it's a dir we can write into).
-        return code == 13
-    end
-    -- Confirm it's a directory and not a regular file.
-    local probe = io.open(path, "r")
-    if probe then
-        probe:close()
-        return false -- opened as a file, so it's not a directory
-    end
-    return true
+    local ok = os.execute(string.format('test -d "%s"', path))
+    return ok == true or ok == 0
 end
 
-io.write("Enter directory to create Justfile in: ")
+io.write("Enter directory to create Justfile in [.]: ")
 local target_dir = io.read():match("^%s*(.-)%s*$")
 
 if target_dir == "" then
-    print("Error: No directory provided")
-    os.exit(1)
+    target_dir = "."
 end
 
 if not is_dir(target_dir) then
