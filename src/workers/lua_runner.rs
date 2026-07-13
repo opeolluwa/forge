@@ -57,10 +57,7 @@ fn deploy_embedded_extensions() -> Result<(), FileSystemError> {
         let dst = dest.join(&file_name);
         if !dst.exists() {
             fs::write(&dst, entry.contents()).map_err(|e| {
-                FileSystemError::OperationError(format!(
-                    "failed to extract '{}': {}",
-                    file_name, e
-                ))
+                FileSystemError::OperationError(format!("failed to extract '{}': {}", file_name, e))
             })?;
         }
     }
