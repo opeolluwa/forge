@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 use crate::{constants::DATABASE_URL, errors::file_system::FileSystemError};
 
 #[derive(Debug, Serialize, Deserialize, Default)]
-pub struct ToolboxConfig {
+pub struct ForgeConfig {
     pub scripts: ScriptConfig,
     pub env: EnvConfig,
 }
@@ -36,8 +36,8 @@ impl Default for ScriptConfig {
         }
     }
 }
-impl ToolboxConfig {
-    const APP_NAME: &str = "dev_toolbox";
+impl ForgeConfig {
+    const APP_NAME: &str = "forge";
     // const
     pub fn new() -> Self {
         Self {
@@ -52,7 +52,7 @@ impl ToolboxConfig {
     }
 
     pub fn load() -> Result<Self, FileSystemError> {
-        let cfg: ToolboxConfig = confy::load(Self::APP_NAME, None)?;
+        let cfg: ForgeConfig = confy::load(Self::APP_NAME, None)?;
         Ok(cfg)
     }
 

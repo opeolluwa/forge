@@ -8,13 +8,13 @@ use std::{
 use dialoguer::Input;
 
 use crate::{
-    config::app::ToolboxConfig,
+    config::app::ForgeConfig,
     constants::{APP_RUNTIME_DATABASE_PATH, APP_RUNTIME_SCRIPTS_DIR, SCRIPTS_DIR},
     errors::file_system::FileSystemError,
     helpers::console::LogMessage,
 };
 
-/// create a folder .dev_toolbox in the default home directory
+/// create a folder .forge in the default home directory
 pub fn configure_scripts(_overwrite: bool) -> Result<(), FileSystemError> {
     let home_dir = dirs::home_dir().ok_or(FileSystemError::IoError(Error::new(
         ErrorKind::NotFound,
@@ -52,7 +52,7 @@ pub fn configure_scripts(_overwrite: bool) -> Result<(), FileSystemError> {
         .default(scripts_dir)
         .interact_text()?;
 
-    let mut cfg = ToolboxConfig::new();
+    let mut cfg = ForgeConfig::new();
     cfg.env.database_url = database_url;
     cfg.scripts.runner = script_runner;
     cfg.scripts.source = scripts_path;
@@ -75,8 +75,8 @@ pub fn execute_custom_script(script: &str) -> Result<(), FileSystemError> {
 
     let script_path = home_dir.join(APP_RUNTIME_SCRIPTS_DIR).join(script);
 
-    // Load toolbox configuration to determine which runner to use
-    let cfg = ToolboxConfig::load()?;
+    // Load forge configuration to determine which runner to use
+    let cfg = ForgeConfig::load()?;
     let runner = cfg.scripts.runner;
 
     // Execute the script using the configured runner and propagate errors

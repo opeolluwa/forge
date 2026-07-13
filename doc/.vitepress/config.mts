@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "Dev toolbox ",
+  title: "Forge",
   description: "lightweight extensible, command line toolchain to streamline a",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config

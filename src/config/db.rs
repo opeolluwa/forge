@@ -3,7 +3,7 @@ use sea_orm::{ConnectOptions, Database as SeaOrmDatabase, DatabaseConnection};
 use migration::{Migrator, MigratorTrait};
 
 use crate::{
-    config::app::ToolboxConfig,
+    config::app::ForgeConfig,
     errors::{app::AppError, database::DatabaseError},
 };
 
@@ -11,7 +11,7 @@ pub struct Database;
 
 impl Database {
     pub async fn init() -> Result<DatabaseConnection, AppError> {
-        let config = ToolboxConfig::load()?;
+        let config = ForgeConfig::load()?;
 
         let database_url = config.env.database_url.trim();
 

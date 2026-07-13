@@ -33,7 +33,7 @@ if not ok then
     os.exit(1)
 end
 
--- write a shell snippet that the toolbox runner can source to cd
+-- write a shell snippet that the forge runner can source to cd
 local cd_file = os.getenv("DEV_TOOLBOX_CD_FILE")
 if cd_file and cd_file ~= "" then
     local f = io.open(cd_file, "w")

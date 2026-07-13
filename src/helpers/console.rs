@@ -4,7 +4,7 @@
 //!
 //! ### Example
 //! ```rust
-//! use lib_toolbox::helpers::console::LogMessage;
+//! use lib_forge::helpers::console::LogMessage;
 //!
 //! LogMessage::error("The README already exists!");
 //! LogMessage::success("README created successfully.");

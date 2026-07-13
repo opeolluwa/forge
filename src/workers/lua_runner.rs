@@ -4,7 +4,9 @@ use mlua::Lua;
 use serde::Deserialize;
 
 use crate::{
-    constants::EXTENSIONS_DIR, errors::file_system::FileSystemError, helpers::console::LogMessage,
+    constants::{EXTENSIONS_DIR, EXTENSIONS_SRC},
+    errors::file_system::FileSystemError,
+    helpers::console::LogMessage,
 };
 
 #[derive(Debug, Deserialize)]
@@ -41,7 +43,34 @@ fn load_manifest(name: &str) -> Result<ExtensionManifest, FileSystemError> {
     })
 }
 
+fn deploy_embedded_extensions() -> Result<(), FileSystemError> {
+    let dest = PathBuf::from(EXTENSIONS_DIR.as_str());
+    fs::create_dir_all(&dest).map_err(|e| {
+        FileSystemError::OperationError(format!("failed to create extensions dir: {}", e))
+    })?;
+
+    for entry in EXTENSIONS_SRC.files() {
+        let file_name = match entry.path().file_name().and_then(|n| n.to_str()) {
+            Some(name) => name.to_string(),
+            None => continue,
+        };
+        let dst = dest.join(&file_name);
+        if !dst.exists() {
+            fs::write(&dst, entry.contents()).map_err(|e| {
+                FileSystemError::OperationError(format!(
+                    "failed to extract '{}': {}",
+                    file_name, e
+                ))
+            })?;
+        }
+    }
+
+    Ok(())
+}
+
 pub fn run_extension(name: &str) -> Result<(), FileSystemError> {
+    deploy_embedded_extensions()?;
+
     let lua_path = PathBuf::from(EXTENSIONS_DIR.as_str()).join(format!("{}.lua", name));
     if !lua_path.exists() {
         return Err(FileSystemError::IoError(std::io::Error::new(
@@ -75,6 +104,8 @@ pub fn run_extension(name: &str) -> Result<(), FileSystemError> {
 }
 
 pub fn show_extension_help(name: &str) -> Result<(), FileSystemError> {
+    deploy_embedded_extensions()?;
+
     let manifest = load_manifest(name)?;
 
     LogMessage::info(&format!("Extension:   {}", manifest.name));
@@ -109,7 +140,7 @@ pub fn show_extension_help(name: &str) -> Result<(), FileSystemError> {
         }
     }
 
-    LogMessage::neutral(&format!("\nRun with: x {}", manifest.name));
+    LogMessage::neutral(&format!("\nRun with: forge {}", manifest.name));
 
     Ok(())
 }

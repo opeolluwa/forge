@@ -3,7 +3,7 @@
 layout: home
 
 hero:
-  name: "Dev toolbox "
+  name: "Forge"
   text: "lightweight extensible, command line toolchain to streamline a"
   tagline: My great project tagline
   actions:

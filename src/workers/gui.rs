@@ -3,7 +3,7 @@ use ribir::prelude::*;
 // use crate::config::db::Database;
 
 pub async fn exec_gui() {
-    // let config = ToolboxConfig::load()?;
+    // let config = ForgeConfig::load()?;
     // let _db = Database::init().await.unwrap();
 
     let counter = fn_widget! {

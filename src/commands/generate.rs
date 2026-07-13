@@ -14,7 +14,7 @@ pub fn generate_command() -> Command {
         .arg(arg!(-p --path <PATH> "desired path"));
 
     let generate_service_cmd = Command::new("service")
-    .about("create a new backend service using convectional structure or as specified in the toolbox.toml file")
+    .about("create a new backend service using convectional structure or as specified in the forge.toml file")
     .arg(arg!(-p --path <PATH> "desired path").required(true));
 
     Command::new("generate")

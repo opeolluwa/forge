@@ -1,7 +1,7 @@
 {
-  "name": "x",
+  "name": "forge",
   "version": "1.0.0",
-  "description": "Toolbox is a lightweight extensible, command line toolchain to streamline a developer workflow",
+  "description": "Forge is a lightweight extensible, command line toolchain to streamline a developer workflow",
   "main": "index.js",
   "directories": {
     "doc": "doc"
